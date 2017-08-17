@@ -57,19 +57,26 @@ export default class Toolbar extends React.Component {
       const relativeParent = getRelativeParent(this.toolbar.parentElement);
       const relativeRect = (relativeParent || document.body).getBoundingClientRect();
       const selectionRect = getVisibleSelectionRect(window);
-
-      // console.log(relativeParent);
-      // console.log(relativeRect.left);
-      // console.log(selectionRect.left);
+      const width = relativeRect.width;
 
       if (!selectionRect) return;
 
-      const leftOrigin = (selectionRect.left - relativeRect.left) + (selectionRect.width / 2);
-      
       const position = {
         top: (selectionRect.top - relativeRect.top) - toolbarHeight,
-        left: leftOrigin >= 80 ? leftOrigin : leftOrigin + (80 - leftOrigin),
+        left: (selectionRect.left - relativeRect.left) + (selectionRect.width / 2),
       };
+
+      // calculate the space from the right border to the selected text
+      const rightDif = relativeRect.width - position.left;
+      
+      // check to see the selected text is close to the left border 
+      if (position.left < 80) {
+        position.left += (80 - position.left);
+      }
+      // check to see the selected text is close to the right border
+      if (rightDif < 80) {
+        position.left -= (80 - rightDif);
+      }
 
       this.setState({ position });
     });

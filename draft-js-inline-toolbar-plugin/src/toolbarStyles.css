@@ -1,4 +1,5 @@
 .toolbar {
+  display: inline-flex;
   left: 50%;
   transform: translate(-50%) scale(0);
   position: absolute;
