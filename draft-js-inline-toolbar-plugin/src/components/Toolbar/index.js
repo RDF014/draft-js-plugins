@@ -58,12 +58,19 @@ export default class Toolbar extends React.Component {
       const relativeRect = (relativeParent || document.body).getBoundingClientRect();
       const selectionRect = getVisibleSelectionRect(window);
 
+      // console.log(relativeParent);
+      // console.log(relativeRect.left);
+      // console.log(selectionRect.left);
+
       if (!selectionRect) return;
 
+      const leftOrigin = (selectionRect.left - relativeRect.left) + (selectionRect.width / 2);
+      
       const position = {
         top: (selectionRect.top - relativeRect.top) - toolbarHeight,
-        left: (selectionRect.left - relativeRect.left) + (selectionRect.width / 2),
+        left: leftOrigin >= 80 ? leftOrigin : leftOrigin + (80 - leftOrigin),
       };
+
       this.setState({ position });
     });
   };
@@ -74,7 +81,7 @@ export default class Toolbar extends React.Component {
     const selection = store.getItem('getEditorState')().getSelection();
     const isVisible = (!selection.isCollapsed() || overrideContent) && selection.getHasFocus();
     const style = { ...position };
-
+    // console.log(style);
     if (isVisible) {
       style.visibility = 'visible';
       style.transform = 'translate(-50%) scale(1)';
