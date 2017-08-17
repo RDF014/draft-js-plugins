@@ -57,7 +57,6 @@ export default class Toolbar extends React.Component {
       const relativeParent = getRelativeParent(this.toolbar.parentElement);
       const relativeRect = (relativeParent || document.body).getBoundingClientRect();
       const selectionRect = getVisibleSelectionRect(window);
-      const width = relativeRect.width;
 
       if (!selectionRect) return;
 
@@ -69,11 +68,11 @@ export default class Toolbar extends React.Component {
       // calculate the space from the right border to the selected text
       const rightDif = relativeRect.width - position.left;
       
-      // check to see the selected text is close to the left border 
+      // check to see if the selected text is close to the left border
       if (position.left < 80) {
         position.left += (80 - position.left);
       }
-      // check to see the selected text is close to the right border
+      // check to see if the selected text is close to the right border
       if (rightDif < 80) {
         position.left -= (80 - rightDif);
       }
@@ -88,7 +87,7 @@ export default class Toolbar extends React.Component {
     const selection = store.getItem('getEditorState')().getSelection();
     const isVisible = (!selection.isCollapsed() || overrideContent) && selection.getHasFocus();
     const style = { ...position };
-    // console.log(style);
+
     if (isVisible) {
       style.visibility = 'visible';
       style.transform = 'translate(-50%) scale(1)';
@@ -114,6 +113,7 @@ export default class Toolbar extends React.Component {
       setEditorState: store.getItem('setEditorState'),
       onOverrideContent: this.onOverrideContent
     };
+
 
     return (
       <div
